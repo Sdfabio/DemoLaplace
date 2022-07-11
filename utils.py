@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import re
 import nltk
 nltk.download('omw-1.4')
+nltk.download('punkt')
 from nltk.stem.wordnet import WordNetLemmatizer
 import fitz
 
