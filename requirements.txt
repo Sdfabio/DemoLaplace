@@ -6,7 +6,6 @@ nltk
 pymupdf
 scikit-learn
 ortools
-plotly
 xlsxwriter
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.0.0/en_core_web_sm-3.0.0.tar.gz
 click==8.1.0
