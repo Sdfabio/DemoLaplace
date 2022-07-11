@@ -7,5 +7,4 @@ pymupdf
 scikit-learn
 ortools
 plotly
-default-jre
 xlsxwriter
