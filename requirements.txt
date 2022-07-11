@@ -1,0 +1,11 @@
+matplotlib
+names
+spacy
+networkx
+nltk
+pymupdf
+scikit-learn
+ortools
+plotly
+default-jre
+xlsxwriter
