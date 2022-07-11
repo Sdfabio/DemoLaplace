@@ -6,7 +6,6 @@ import spacy_merge_phrases
 import constraint_P
 import streamlit as st
 import base64
-import plotly.graph_objects as go
 import spacy
 
 os.system('python -m spacy download en_core_web_sm')
