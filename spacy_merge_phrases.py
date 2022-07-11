@@ -1,8 +1,8 @@
-import en_core_web_sm
 import nltk
 import os
+import spacy
 
-nlp = en_core_web_sm.load()
+nlp = spacy.load("en_core_web_sm")
 
 def merge_phrases(doc):
     with doc.retokenize() as retokenizer:
