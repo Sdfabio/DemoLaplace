@@ -6,10 +6,8 @@ import spacy_merge_phrases
 import constraint_P
 import streamlit as st
 import base64
-import spacy
+import plotly.graph_objects as go
 
-os.system('python -m spacy download en_core_web_sm')
-nlp = spacy.load("en_core_web_sm")
 path = '/home/ff/Documents/UDepLambdaaIrudi'
 
 def pdf_rules_extract(pdf_file):
@@ -43,7 +41,6 @@ def generate_simple_rules(sents):
     for dic in dics:
         rule_set,_ = utils.graph_dic(dic)
         rules.append(rule_set)
-    print(rules) 
     return rules
 
 def filter_CP(rules, df_table, sent=None, test=0):
@@ -69,11 +66,38 @@ def read_rules(num):
     	for line in f:
         	out_sentences.append(line)
     f.close()
-    print(out_sentences)
     rules_tot = generate_simple_rules(out_sentences)
     return rules_tot
 
 st.set_page_config(layout='wide')  
+
+st.title('CCG Approach: Sentence concept parsing')
+st.subheader('We want to present what is done to each sentence we extract in the document')
+sent = st.text_input('Type a sentence you want to parse here')
+if st.button('Parse sentence'):
+    sent = spacy_merge_phrases.generate_noun_phrase_sent(sent)
+    with open('input-english2.txt','w') as f:
+        f.write(r'{"sentence":"'+sent+r'"}')
+        f.write('\n')
+    sent_file = 'input-english2.txt'
+    output = 'output.json'
+    #preprocessing of the sentence into a JSON file
+    command = 'cat '+ sent_file +' | sh run-english.sh > '+ output
+    os.system(command)
+    # importing the dictionary
+    # Opening JSON file
+    with open('output.json') as json_file:
+        dic_work = json.load(json_file)
+    rules, fig = utils.graph_dic(dic_work)
+    fname = 'Graph.png'
+    file_path = os.path.join(path,fname)
+    fig.savefig(fname)
+    with st.container():
+        cola, colb = st.columns(2)
+        with cola:
+        	st.write(rules)
+        with colb:
+        	st.pyplot(fig)
 
 st.title('Choose a Document to filter the table')
 
@@ -100,12 +124,12 @@ with st.container():
         	doc_choose = 2
 
     with col3:
-        with open('PDF-converted-input-test-en-1.pdf',"rb") as f:
+        with open('PDF-converted-input-test-en-3.pdf',"rb") as f:
         	base64_pdf = base64.b64encode(f.read()).decode('utf-8')
         pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="500" height="200" type="application/pdf"></iframe>'
         st.markdown(pdf_display, unsafe_allow_html=True)
         if st.button('Filter with Doc3'):
-        	doc_choose = 2
+        	doc_choose = 3
 
 
 pdf_name = 'articles.pdf'
@@ -113,11 +137,11 @@ pdf_name = 'articles.pdf'
 
 table = utils.generate_df()
 
-st.title('Primary table: ' + str(len(table)) + ' employees total')
+st.title('Workforce allocation task application')
+st.header('Primary table: ' + str(len(table)) + ' employees total')
 st.write(table)
 if doc_choose == 1 or doc_choose == 2 or doc_choose == 3:
 	rules_tot = read_rules(doc_choose)
-	print(rules_tot)
 	final_table = filter_CP(rules = rules_tot,df_table = table)
 	st.title('Filtered Table: ' + str(len(final_table)) + ' employees remaining')
 	st.write(final_table)
