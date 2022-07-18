@@ -4,7 +4,6 @@ from sklearn import preprocessing
 from collections import defaultdict
 import json
 from ortools.sat.python import cp_model
-import numpy as np
 from nltk.stem import WordNetLemmatizer
 import pickle
 import random
@@ -88,8 +87,8 @@ def filter_database(rules_npy,df):
     vars = [None]*len(df.columns)
     dic_cols_raw = {}
     for idx,col in enumerate(df.columns):
-        dic_cols[col] = list(np.unique(df_encode[col]))
-        dic_cols_raw[col] = list(np.unique(df[col]))
+        dic_cols[col] = list(set(df_encode[col]))
+        dic_cols_raw[col] = list(set(df[col]))
         vars[idx] = model.NewIntVar(0, max(dic_cols[col]), col)
         dic_vars[col] = vars[idx]
         # vars[idx].SetValues(dic_cols[col])
