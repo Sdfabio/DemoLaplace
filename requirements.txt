@@ -1,5 +1,4 @@
 matplotlib
-numpy
 names
 spacy
 networkx
@@ -9,3 +8,4 @@ scikit-learn
 ortools
 xlsxwriter
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.0.0/en_core_web_sm-3.0.0.tar.gz
+numpy = "1.21.5"
