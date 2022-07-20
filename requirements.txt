@@ -1,5 +1,5 @@
 streamlit
-install-jdk
+default-jre
 matplotlib == 3.5.2
 names
 spacy == 3.0.5
